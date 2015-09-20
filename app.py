@@ -17,4 +17,4 @@ def fetch():
     return Response(html, mimetype='text/xml')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
