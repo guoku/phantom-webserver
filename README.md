@@ -15,7 +15,12 @@ Example request:
     
 Requirements:
 * phantomjs2
-  npm install phantomjs2
+
+    npm install -g https://github.com/pocketjoso/phantomjs2.git
+    
+  Install from github because there are some bugs the author has fixed, but not 
+  submitted to the NPM yet.
+  
 * python packages in requirements.txt.
   
 How to run it:
