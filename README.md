@@ -11,15 +11,15 @@ Example request:
     POST / HTTP/1.1
     Content-Type: application/x-www-form-urlencoded
     
-    url=http%3A%2F%2Fdetail.tmall.com%2Fitem.htm%3Fid%3D521585783755
+    url=http%3A%2F%2Fdetail.tmall.com%2Fitem.htm%3Fid%3D521585783755           
     
 Requirements:
-* phantomjs2
 
-    npm install -g https://github.com/pocketjoso/phantomjs2.git
-    
-  Install from github because there are some bugs the author has fixed, but not 
-  submitted to the NPM yet.
+* phantomjs2  
+  Install from github because there are some bugs the author has fixed, but not submitted to the NPM yet.
+   
+    `     npm install -g https://github.com/pocketjoso/phantomjs2.git              
+    ` 
   
 * python packages in requirements.txt.
   
@@ -27,5 +27,5 @@ How to run it:
 After all requirements are installed, in the project root, in terminal:
 
     gunicorn -w 4 app:app
-
+    
 Then Gunicorn will start it with four workers.
