@@ -1,0 +1,7 @@
+p-w:
+  build: .
+  ports:
+    - "5000:5000"
+  command: python app.py
+  volumes:
+    - .:/usr/app
