@@ -1,7 +1,9 @@
 p-w:
   build: .
+  environment:
+    WEB_CONCURRENCY: 3
   ports:
     - "5000:5000"
-  command: python app.py
+  command: gunicorn -b 0.0.0.0:5000 --access-logfile "-" app:app
   volumes:
     - .:/usr/app
