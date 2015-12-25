@@ -1,4 +1,4 @@
-p-w:
+pw:
   build: .
   environment:
     WEB_CONCURRENCY: 3
