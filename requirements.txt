@@ -6,3 +6,4 @@ gunicorn==19.3.0
 itsdangerous==0.24
 selenium==2.47.3
 wsgiref==0.1.2
+fake-factory==0.5.3
