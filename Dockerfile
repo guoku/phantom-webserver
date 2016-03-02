@@ -1,9 +1,6 @@
-FROM rosenhouse/phantomjs2
+FROM python:2.7
 MAINTAINER judy.programer@gmail.com
 EXPOSE 5000
-
-COPY aliyun.sources.list /etc/apt/sources.list
-RUN apt-get update -yqq && apt-get install -y python-pip
 
 RUN mkdir /usr/app
 WORKDIR /usr/app
