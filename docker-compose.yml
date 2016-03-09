@@ -7,3 +7,8 @@ pw:
   command: python app.py
   volumes:
     - .:/usr/app
+selenium:
+  image: selenium/chrome-standalone
+  ports:
+#    - "127.0.0.1:4444:4444"
+    - "http://192.168.99.100:4444"
