@@ -1,21 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 
 from time import sleep
 from faker import Faker
 from flask import Flask, request, Response, jsonify, g
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException, WebDriverException
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import NoSuchElementException
 
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 faker = Faker()
+SELENIUM_DRIVER_HOST = os.environ.get('PW_SELENIUM_DRIVER', 'localhost')
+selenium_url = "http://%s:4444/wd/hub" % SELENIUM_DRIVER_HOST
+print '>>>> ', selenium_url
 
 
 @app.route("/_health", methods=['GET'])
@@ -124,8 +128,7 @@ def fetch():
 @app.before_request
 def before_request():
     driver = webdriver.Remote(
-        # command_executor='http://10.0.2.49:4444/wd/hub',
-        command_executor='http://192.168.99.100:4444/wd/hub',
+        command_executor=selenium_url,
         desired_capabilities=DesiredCapabilities.CHROME.copy()
     )
     g.driver = driver
