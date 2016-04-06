@@ -17,7 +17,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 app = Flask(__name__)
 app.config['DEBUG'] = True
 faker = Faker()
-SELENIUM_DRIVER_HOST = os.environ.get('PW_SELENIUM_DRIVER', 'localhost')
+SELENIUM_DRIVER_HOST = os.environ.get('PW_SELENIUM_DRIVER', '10.0.2.49')
 selenium_url = "http://%s:4444/wd/hub" % SELENIUM_DRIVER_HOST
 print '>>>> ', selenium_url
 
@@ -59,7 +59,7 @@ def get_sg_cookie():
             password)
         driver.find_element_by_css_selector(
             'form#Login button[type=submit]').click()
-        app.logger.info("logged as %s.", username)
+        app.logger.info("login as %s.", username)
 
         sleep(20)
         driver.get('http://weixin.sogou.com/')
@@ -87,6 +87,7 @@ def get_sg_cookie():
             '{}={}'.format(c['name'], c['value'])
             for c in driver.get_cookies())
         resp_data = {'sg_cookie': cookie}
+        app.logger.info("got cookies success")
         return jsonify(resp_data)
     except BaseException as e:
         app.logger.error("sogou login failed! %s", e.message)
@@ -130,6 +131,7 @@ def before_request():
     driver = webdriver.Remote(
         command_executor=selenium_url,
         desired_capabilities=DesiredCapabilities.CHROME.copy()
+
     )
     g.driver = driver
 
