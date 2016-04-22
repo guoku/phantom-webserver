@@ -17,7 +17,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 app = Flask(__name__)
 app.config['DEBUG'] = True
 faker = Faker()
-SELENIUM_DRIVER_HOST = os.environ.get('PW_SELENIUM_DRIVER', '10.0.2.49')
+SELENIUM_DRIVER_HOST = os.environ.get('PW_SELENIUM_DRIVER', '10.0.2.49')   #本地跑的话可以需要修改IP地址
 selenium_url = "http://%s:4444/wd/hub" % SELENIUM_DRIVER_HOST
 print '>>>> ', selenium_url
 
@@ -61,13 +61,13 @@ def get_sg_cookie():
             'form#Login button[type=submit]').click()
         app.logger.info("login as %s.", username)
 
-        sleep(20)
+        sleep(3)
         driver.get('http://weixin.sogou.com/')
         print 'visited weixin.sogou.com'
-        sleep(10)
+        sleep(3)
         driver.get('http://weixin.sogou.com/weixin?type=1&query=shenyebagua818')
         print 'searched by weixin.sogou.com'
-        sleep(10)
+        sleep(3)
         try:
             driver.find_element_by_css_selector("div.results div").click()
             print 'clicked'
@@ -88,9 +88,24 @@ def get_sg_cookie():
             for c in driver.get_cookies())
         resp_data = {'sg_cookie': cookie}
         app.logger.info("got cookies success")
+        app.logger.info(resp_data)
         return jsonify(resp_data)
     except BaseException as e:
         app.logger.error("sogou login failed! %s", e.message)
+
+@app.route("/userlink", methods=['POST'])
+def get_user_link():
+    weixin_id = request.args.get('query')
+    driver = g.driver
+    sleep(1)
+    try:
+        driver.get('http://weixin.sogou.com/weixin?type=1&query=%s' % weixin_id)
+        obj = driver.find_element_by_id('sogou_vr_11002301_box_0')    #Todo 这个ID名字可能不能写死
+        user_link = obj.get_attribute('href')
+        app.logger.info(user_link)
+        return jsonify({'user_link' :user_link})
+    except Exception as e:
+        app.logger.info(e)
 
 
 @app.route("/", methods=['POST'])
